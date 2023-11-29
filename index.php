@@ -1,19 +1,17 @@
-<?php
-session_start();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+</head>
+<body>
 
-// Check if the user is logged in
-if (isset($_SESSION['buyer_id'])) {
-    echo "구매자로 로그인 중입니다. 환영합니다, " . $_SESSION['buyer_name'] . "님!";
-    echo '<br><a href="logout.php">로그아웃</a>';
-} elseif (isset($_SESSION['seller_id'])) {
-    echo "판매자로 로그인 중입니다. 환영합니다, " . $_SESSION['seller_name'] . "님!";
-    echo '<br><a href="logout.php">로그아웃</a>';
-} else {
-    // If not logged in, show login and register links
-    echo '<a href="login_buyer.php">구매자 로그인</a><br>';
-    echo '<a href="register_buyer.php">구매자 회원가입</a><br>';
-    echo '<br>';
-    echo '<a href="login_seller.php">판매자 로그인</a><br>';
-    echo '<a href="register_seller.php">판매자 회원가입</a>';
-}
-?>
+<h2>환영합니다!</h2>
+
+<a href="register_buyer.php"><button>구매자 회원가입</button></a>
+<a href="register_seller.php"><button>판매자 회원가입</button></a>
+<a href="login.php"><button>로그인</button></a>
+
+</body>
+</html>
