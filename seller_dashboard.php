@@ -42,12 +42,15 @@ if ($result->num_rows > 0) {
     echo "<h3>등록한 정육점 목록:</h3>";
     echo "<ul>";
     while ($row = $result->fetch_assoc()) {
-        echo "<li>{$row['shop_name']} - 위치: {$row['location']}</li>";
+        $shopID = $row['id'];
+        echo "<li>{$row['shop_name']} - 위치: {$row['location']} ";
+        echo "<a href='meatlist.php?shop_id=$shopID'>고기 목록</a></li>";
     }
     echo "</ul>";
 } else {
     echo "등록된 정육점이 없습니다.";
 }
+
 ?>
 
 <!-- 기존 내용 -->
