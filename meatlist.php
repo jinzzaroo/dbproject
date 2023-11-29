@@ -52,7 +52,15 @@ if ($meatResult->num_rows > 0) {
     echo "<h3>고기 목록:</h3>";
     echo "<ul>";
     while ($meatRow = $meatResult->fetch_assoc()) {
-        echo "<li>{$meatRow['meat_name']} - 가격: {$meatRow['price']}원 - 수량: {$meatRow['quantity']}</li>";
+        echo "<li>{$meatRow['meat_name']} - 가격: {$meatRow['price']}원 - 수량: {$meatRow['quantity']}";
+
+        // 수정 버튼
+        echo " <a href='edit_meat.php?meat_id={$meatRow['id']}'>수정</a>";
+
+        // 삭제 버튼 (JavaScript를 사용하여 확인 메시지 표시)
+        echo " <a href='#' onclick='confirmDelete({$meatRow['id']})'>삭제</a>";
+
+        echo "</li>";
     }
     echo "</ul>";
 } else {
@@ -62,6 +70,16 @@ if ($meatResult->num_rows > 0) {
 
 <!-- 고기 추가 페이지로 이동할 수 있는 링크 -->
 <a href="add_meat.php?shop_id=<?php echo $shopID; ?>">고기 추가</a>
+
+<!-- JavaScript로 삭제 확인 메시지 표시 -->
+<script>
+    function confirmDelete(meatId) {
+        var confirmDelete = confirm("정말로 삭제하시겠습니까?");
+        if (confirmDelete) {
+            window.location.href = 'delete_meat.php?meat_id=' + meatId + '&shop_id=<?php echo $shopID; ?>';
+        }
+    }
+</script>
 
 </body>
 </html>

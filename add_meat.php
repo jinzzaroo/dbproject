@@ -41,7 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($conn->query($addMeatQuery) === TRUE) {
         echo "고기가 추가되었습니다!";
-        
+        header('Location: meatlist.php?shop_id=' . $shopID);
+        exit();
+
     } else {
         echo "Error: " . $addMeatQuery . "<br>" . $conn->error;
     }
