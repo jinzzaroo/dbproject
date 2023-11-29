@@ -22,8 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($conn->query($query) === TRUE) {
             echo "판매자 회원가입 성공!";
+            header('Location: seller_dashboard.php');
+            exit();
         } else {
             echo "Error: " . $query . "<br>" . $conn->error;
+            header('Location: register_seller.php');
+            exit();
         }
     }
 }
@@ -46,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label for="password">비밀번호:</label>
     <input type="password" name="password" required>
     <br>
-    <label for="seller_name">상점 이름:</label>
+    <label for="seller_name">이름:</label>
     <input type="text" name="seller_name" required>
     <br>
     <label for="contact_number">연락처:</label>
