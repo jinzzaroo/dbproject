@@ -1,3 +1,9 @@
+<!-- index.php -->
+
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,11 +13,27 @@
 </head>
 <body>
 
+<!-- Navigation Bar -->
+<nav>
+    <ul>
+        <?php
+        // Check if the user is a seller
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
+            echo '<li><a href="seller/seller_dashboard.php">판매자 홈</a></li>';
+            echo '<li><a href="user/logout.php">로그아웃</a></li>';
+        } else {
+            // If not a seller (assuming a buyer or not logged in)
+            echo '<li><a href="user/register_buyer.php">구매자 회원가입</a></li>';
+            echo '<li><a href="user/register_seller.php">판매자 회원가입</a></li>';
+            echo '<li><a href="user/login.php">로그인</a></li>';            
+        }
+        ?>
+    </ul>
+</nav>
+
 <h2>환영합니다!</h2>
 
-<a href="register_buyer.php"><button>구매자 회원가입</button></a>
-<a href="register_seller.php"><button>판매자 회원가입</button></a>
-<a href="login.php"><button>로그인</button></a>
+<!-- Rest of your content -->
 
 </body>
 </html>

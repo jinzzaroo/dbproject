@@ -1,11 +1,11 @@
 <?php
-include 'config.php'; // 데이터베이스 연결 설정 파일
+include '../config.php'; // 데이터베이스 연결 설정 파일
 
 session_start();
 
 // 판매자로 로그인된 경우에만 접근 허용
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'seller') {
-    header('Location: login.php'); // 판매자가 아니면 로그인 페이지로 이동
+    header('Location: ../user/login.php'); // 판매자가 아니면 로그인 페이지로 이동
     exit();
 }
 
@@ -47,6 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>정육점 등록</title>
 </head>
 <body>
+
+<!-- Navigation Bar -->
+<nav>
+    <ul>
+        <li><a href="seller_dashboard.php">판매자 홈</a></li>
+        <li><a href="../user/logout.php">Logout</a></li>
+    </ul>
+</nav>
 
 <h2>정육점 등록</h2>
 <form method="post" action="register_shop.php">

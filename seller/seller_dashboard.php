@@ -1,13 +1,13 @@
 <!-- seller_dashboard.php -->
 
 <?php
-include 'config.php'; // 데이터베이스 연결 설정 파일
+include '../config.php'; // 데이터베이스 연결 설정 파일
 
 session_start();
 
 // 판매자로 로그인된 경우에만 접근 허용
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'seller') {
-    header('Location: login.php'); // 판매자가 아니면 로그인 페이지로 이동
+    header('Location: ../user/login.php'); // 판매자가 아니면 로그인 페이지로 이동
     exit();
 }
 
@@ -29,6 +29,14 @@ $result = $conn->query($query);
 </head>
 <body>
 
+<!-- Navigation Bar -->
+<nav>
+    <ul>
+        <li><a href="../index.php">Home</a></li>
+        <li><a href="../user/logout.php">Logout</a></li>
+    </ul>
+</nav>
+
 <h2>판매자 대시보드</h2>
 
 <!-- 기존 내용 -->
@@ -44,7 +52,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $shopID = $row['id'];
         echo "<li>{$row['shop_name']} - 위치: {$row['location']} ";
-        echo "<a href='meatlist.php?shop_id=$shopID'>고기 목록</a></li>";
+        echo "<a href='meat/meatlist.php?shop_id=$shopID'>고기 목록</a></li>";
     }
     echo "</ul>";
 } else {

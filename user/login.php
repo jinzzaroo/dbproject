@@ -1,5 +1,5 @@
 <?php
-include 'config.php';
+include '../config.php'; // Adjust the path to config.php based on your project structure
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userid = $_POST['userid'];
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: buyer_dashboard.php');
             exit();
         } elseif ($role === 'seller') {
-            header('Location: seller_dashboard.php');
+            header('Location: ../seller/seller_dashboard.php');
             exit();
         }
     } else {
@@ -54,6 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>로그인</title>
 </head>
 <body>
+
+<ul>
+        <li><a href="../index.php">Home</a></li>
+</ul>
+
 
 <h2>로그인</h2>
 <form method="post" action="login.php">

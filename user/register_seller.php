@@ -1,5 +1,5 @@
 <?php
-include 'config.php'; // 데이터베이스 연결 설정 파일
+include '../config.php'; // 데이터베이스 연결 설정 파일
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userid = $_POST['userid'];
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($conn->query($query) === TRUE) {
             echo "판매자 회원가입 성공!";
-            header('Location: seller_dashboard.php');
+            header('Location: ../seller/seller_dashboard.php');
             exit();
         } else {
             echo "Error: " . $query . "<br>" . $conn->error;
@@ -41,7 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>판매자 회원가입</title>
 </head>
 <body>
-
+<ul>
+        <li><a href="../index.php">Home</a></li>
+        <li><a href="login.php">로그인</a></li>
+</ul>
 <h2>판매자 회원가입</h2>
 <form method="post" action="register_seller.php">
     <label for="userid">아이디:</label>
