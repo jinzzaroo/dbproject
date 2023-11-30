@@ -1,15 +1,15 @@
 <?php
-include 'config.php'; // 데이터베이스 연결 설정 파일
+include '../config.php'; // 데이터베이스 연결 설정 파일
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userid = $_POST['userid'];
     $password = $_POST['password'];
-    $sellerName = $_POST['seller_name'];
+    $buyerName = $_POST['buyer_name'];
     $contactNumber = $_POST['contact_number'];
     $address = $_POST['address'];
 
     // Check if userid already exists
-    $checkQuery = "SELECT * FROM Seller WHERE userid = '$userid'";
+    $checkQuery = "SELECT * FROM Buyer WHERE userid = '$userid'";
     $result = $conn->query($checkQuery);
 
     if ($result->num_rows > 0) {
@@ -18,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // If userid is unique, proceed with registration
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = "INSERT INTO Seller (userid, password, seller_name, contact_number, address) VALUES ('$userid', '$hashedPassword', '$sellerName', '$contactNumber', '$address')";
+        $query = "INSERT INTO Buyer (userid, password, buyer_name, contact_number, address) VALUES ('$userid', '$hashedPassword', '$buyerName', '$contactNumber', '$address')";
 
         if ($conn->query($query) === TRUE) {
-            echo "판매자 회원가입 성공!";
+            echo "구매자 회원가입 성공!";
         } else {
             echo "Error: " . $query . "<br>" . $conn->error;
         }
@@ -34,20 +34,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>판매자 회원가입</title>
+    <title>구매자 회원가입</title>
 </head>
 <body>
 
-<h2>판매자 회원가입</h2>
-<form method="post" action="register_seller.php">
+<ul>
+        <li><a href="../index.php">Home</a></li>
+        <li><a href="login.php">로그인</a></li>
+</ul>
+
+<h2>구매자 회원가입</h2>
+<form method="post" action="register_buyer.php">
     <label for="userid">아이디:</label>
     <input type="text" name="userid" required>
     <br>
     <label for="password">비밀번호:</label>
     <input type="password" name="password" required>
     <br>
-    <label for="seller_name">상점 이름:</label>
-    <input type="text" name="seller_name" required>
+    <label for="buyer_name">이름:</label>
+    <input type="text" name="buyer_name" required>
     <br>
     <label for="contact_number">연락처:</label>
     <input type="text" name="contact_number" required>
