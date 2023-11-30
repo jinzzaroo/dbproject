@@ -21,12 +21,18 @@ session_start();
         if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
             echo '<li><a href="seller/seller_dashboard.php">판매자 홈</a></li>';
             echo '<li><a href="user/logout.php">로그아웃</a></li>';
+
+        } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'buyer') {
+            echo '<li><a href="buyer/buyer_dashboard.php">구매자 홈</a></li>';
+            echo '<li><a href="user/logout.php">로그아웃</a></li>';
+
         } else {
-            // If not a seller (assuming a buyer or not logged in)
+            // If not a seller or buyer (assuming not logged in)
             echo '<li><a href="user/register_buyer.php">구매자 회원가입</a></li>';
             echo '<li><a href="user/register_seller.php">판매자 회원가입</a></li>';
-            echo '<li><a href="user/login.php">로그인</a></li>';            
+            echo '<li><a href="user/login.php">로그인</a></li>';
         }
+        
         ?>
     </ul>
 </nav>
