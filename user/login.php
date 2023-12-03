@@ -48,28 +48,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
+    <link rel="stylesheet" href="../style/style.css">
 </head>
+
 <body>
 
-<ul>
-        <li><a href="../index.php">Home</a></li>
-</ul>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-left">
+            <h1><a href="../index.php">MeatView.</a></h1>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <?php
+                echo '<li class="dropdown">';
+                echo '<a href="#" class="dropbtn">Menu</a>';
+                echo '<div class="dropdown-content">';
+                echo '<a href="register_buyer.php">Sign up</a>';
+                echo '<a href="login.php">Sign in</a>';
+                echo '<a href="register_seller.php">Sign up (Seller)</a>';
+                echo '</div>';
+                echo '</li>';
+                ?>
+            </ul>
+        </div>
+    </nav>
 
-
-<h2>로그인</h2>
-<form method="post" action="login.php">
-    <label for="userid">아이디:</label>
-    <input type="text" name="userid" required>
-    <br>
-    <label for="password">비밀번호:</label>
-    <input type="password" name="password" required>
-    <br>
-    <input type="submit" value="로그인">
-</form>
+    <!-- Login Form -->
+    <div class="centered-form">
+        <h2>MeatView.</h2>
+        <form method="post" action="login.php">
+            <label for="userid">ID</label>
+            <input type="text" name="userid" required>
+            <br>
+            <label for="password">Password</label>
+            <input type="password" name="password" required>
+            <br>
+            <input type="submit" value="Sign in">
+        </form>
+    </div>
 
 </body>
+
 </html>

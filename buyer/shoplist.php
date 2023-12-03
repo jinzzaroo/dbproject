@@ -17,87 +17,72 @@ $resultShops = $conn->query($queryShops);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/style2.css">
     <title>Shop List</title>
-    <style>
-        body {
-            display: flex;
-        }
-
-        .dashboard-container {
-            flex: 1;
-            margin-right: 20px;
-        }
-
-        .shop-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .shop-list-item {
-            margin-bottom: 10px;
-        }
-
-        .add-to-favorites {
-            background-color: #4CAF50;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        input[type="text"] {
-            margin-bottom: 10px;
-        }
-    </style>
 </head>
+
 <body>
+    <nav>
+        <div class="nav-left">
+            <h1><a href="../index.php">MeatView.</a></h1>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <?php
+                echo '<li><a href="buyer_dashboard.php">Home</a></li>'; // 경로 수정
+                echo '<li><a href="../user/logout.php">Sign out</a></li>'; // 경로 수정
+                ?>
+            </ul>
+        </div>
+    </nav>
 
-<div class="dashboard-container">
+    <div class="container">
+        <h2 style="text-align: center;">ButcherShop List</h2>
+        <br>
+        <div class="button-container">
+            <form method="get" action="shoplist.php">
+                <input type="text" name="search" id="searchFavorites" value="<?= htmlspecialchars($searchTerm) ?>" placeholder="검색">
+                <input type="submit" value="검색">
+            </form>
+        </div>
 
-<div class="navbar">
-        <a href="buyer_dashboard.php">Home</a>
-        <a href="../user/logout.php">Logout</a>
-</div>
-
-    <h2>Shop List</h2>
-
-    <!-- 검색창 추가 -->
-    <form method="get" action="shoplist.php">
-        <label for="searchShops">Search:</label>
-        <input type="text" name="search" id="searchShops" value="<?= $searchTerm ?>">
-        <input type="submit" value="Search">
-    </form>
-
-    <ul class="shop-list">
-        <?php
-        while ($row = $resultShops->fetch_assoc()) {
-            echo "<li class='shop-list-item'>
-                    {$row['shop_name']} - {$row['location']}
-                    <form method='post' action='add_favorites.php'>
-                        <input type='hidden' name='shop_id' value='{$row['id']}'>
-                        <input type='submit' class='add-to-favorites' value='Add to Favorites'>
-                    </form>
+        <ul>
+            <?php
+            while ($row = $resultShops->fetch_assoc()) {
+                echo "<li class='favorite-item'>
+                <div>
+                    <strong>{$row['shop_name']}</strong> - {$row['location']}
+                </div>                    
+                <div clss = 'button-group'>
+                        <form method='post' action='add_favorites.php'>
+                            <input type='hidden' name='shop_id' value='{$row['id']}'>
+                            <input type='submit' class='view-shop-button' value='Add to Favorites'>
+                        </form>
+                    </div>
                   </li>";
-        }
-        ?>
-    </ul>
+            }
+            ?>
+        </ul>
 
-    <!-- 페이징 링크 추가 -->
-    <?php
-    $queryCountShops = "SELECT COUNT(*) as count FROM ButcherShop
+        <!-- 페이징 링크 추가 -->
+        <?php
+        $queryCountShops = "SELECT COUNT(*) as count FROM ButcherShop
                         WHERE shop_name LIKE '%$searchTerm%' OR location LIKE '%$searchTerm%'";
-    $countShops = $conn->query($queryCountShops)->fetch_assoc()['count'];
-    $totalPagesShops = ceil($countShops / $itemsPerPage);
+        $countShops = $conn->query($queryCountShops)->fetch_assoc()['count'];
+        $totalPagesShops = ceil($countShops / $itemsPerPage);
 
-    for ($i = 1; $i <= $totalPagesShops; $i++) {
-        echo "<a href='shoplist.php?pageShops=$i&search=$searchTerm'>$i</a> ";
-    }
-    ?>
-</div>
+        echo "<div class='pagination'>";
+        for ($i = 1; $i <= $totalPagesShops; $i++) {
+            echo "<a href='shoplist.php?pageShops=$i&search=$searchTerm'>$i</a> ";
+        }
+        echo "</div>";
+        ?>
+    </div>
 
 </body>
+
 </html>
