@@ -73,27 +73,31 @@ $result = $conn->query($query);
                 }
 
                 // Check if the delete_shop button is clicked
+                // Check if the delete_shop button is clicked
                 if (isset($_POST['delete_shop'])) {
                     // Get the shop_id to be deleted
                     $deleteShopID = $_POST['shop_id'];
 
-                    // Perform the deletion query
-                    $deleteMeatQuery = "DELETE FROM Meat WHERE shop_id = '$deleteShopID'";
-                    $deleteMeatResult = $conn->query($deleteMeatQuery);
-                    
-                    // Proceed with deleting the ButcherShop if there are no related records
-                    if ($deleteMeatResult) {
+                    // Delete related records in the Review table
+                    $deleteReviewQuery = "DELETE FROM Review WHERE shop_id = '$deleteShopID'";
+                    $deleteReviewResult = $conn->query($deleteReviewQuery);
+
+                    if ($deleteReviewResult) {
+                        // Proceed with deleting the ButcherShop
                         $deleteQuery = "DELETE FROM ButcherShop WHERE id = '$deleteShopID' AND seller_id = '$id'";
                         $deleteResult = $conn->query($deleteQuery);
-                    
-                        // Rest of your deletion logic...
+
+                        if ($deleteResult) {
+                            // Rest of your deletion logic...
+                        } else {
+                            echo '<script>alert("정육점 삭제 중 오류가 발생했습니다.");</script>';
+                        }
                     } else {
-                        echo '<script>alert("정육점 삭제 중 오류가 발생했습니다. 연결된 상품이 있을 수 있습니다.");</script>';
+                        echo '<script>alert("관련 리뷰 삭제 중 오류가 발생했습니다.");</script>';
                     }
                 }
-            } else {
-                echo "즐겨찾기에 등록된 정육점이 없습니다.";
             }
+
             ?>
         </ul>
     </div>
