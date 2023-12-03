@@ -44,7 +44,6 @@ $result = $conn->query($query);
         </div>
     </nav>
 
-
     <div class="container">
         <h2 style="text-align: center;">My ButcherShop (Seller)</h2>
         <br>
@@ -65,15 +64,39 @@ $result = $conn->query($query);
                 </div>
                 <div class='button-group'>
                     <a href='meat/meatlist.php?shop_id=$shopID' class='view-meatlist-button'>고기 목록</a>
+                    <form method='post' action=''>
+                        <input type='hidden' name='shop_id' value='$shopID'>
+                        <button type='submit' name='delete_shop' class='delete-shop-button'>정육점 삭제</button>
+                    </form>
                 </div>
               </li>";
+                }
+
+                // Check if the delete_shop button is clicked
+                if (isset($_POST['delete_shop'])) {
+                    // Get the shop_id to be deleted
+                    $deleteShopID = $_POST['shop_id'];
+
+                    // Perform the deletion query
+                    $deleteMeatQuery = "DELETE FROM Meat WHERE shop_id = '$deleteShopID'";
+                    $deleteMeatResult = $conn->query($deleteMeatQuery);
+                    
+                    // Proceed with deleting the ButcherShop if there are no related records
+                    if ($deleteMeatResult) {
+                        $deleteQuery = "DELETE FROM ButcherShop WHERE id = '$deleteShopID' AND seller_id = '$id'";
+                        $deleteResult = $conn->query($deleteQuery);
+                    
+                        // Rest of your deletion logic...
+                    } else {
+                        echo '<script>alert("정육점 삭제 중 오류가 발생했습니다. 연결된 상품이 있을 수 있습니다.");</script>';
+                    }
                 }
             } else {
                 echo "즐겨찾기에 등록된 정육점이 없습니다.";
             }
             ?>
         </ul>
-
+    </div>
 </body>
 
 </html>
