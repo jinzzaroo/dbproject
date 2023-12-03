@@ -44,7 +44,6 @@ $result = $conn->query($query);
         </div>
     </nav>
 
-
     <div class="container">
         <h2 style="text-align: center;">My ButcherShop (Seller)</h2>
         <br>
@@ -65,15 +64,43 @@ $result = $conn->query($query);
                 </div>
                 <div class='button-group'>
                     <a href='meat/meatlist.php?shop_id=$shopID' class='view-meatlist-button'>고기 목록</a>
+                    <form method='post' action=''>
+                        <input type='hidden' name='shop_id' value='$shopID'>
+                        <button type='submit' name='delete_shop' class='delete-shop-button'>정육점 삭제</button>
+                    </form>
                 </div>
               </li>";
                 }
-            } else {
-                echo "즐겨찾기에 등록된 정육점이 없습니다.";
+
+                // Check if the delete_shop button is clicked
+                // Check if the delete_shop button is clicked
+                if (isset($_POST['delete_shop'])) {
+                    // Get the shop_id to be deleted
+                    $deleteShopID = $_POST['shop_id'];
+
+                    // Delete related records in the Review table
+                    $deleteReviewQuery = "DELETE FROM Review WHERE shop_id = '$deleteShopID'";
+                    $deleteReviewResult = $conn->query($deleteReviewQuery);
+
+                    if ($deleteReviewResult) {
+                        // Proceed with deleting the ButcherShop
+                        $deleteQuery = "DELETE FROM ButcherShop WHERE id = '$deleteShopID' AND seller_id = '$id'";
+                        $deleteResult = $conn->query($deleteQuery);
+
+                        if ($deleteResult) {
+                            // Rest of your deletion logic...
+                        } else {
+                            echo '<script>alert("정육점 삭제 중 오류가 발생했습니다.");</script>';
+                        }
+                    } else {
+                        echo '<script>alert("관련 리뷰 삭제 중 오류가 발생했습니다.");</script>';
+                    }
+                }
             }
+
             ?>
         </ul>
-
+    </div>
 </body>
 
 </html>

@@ -78,7 +78,7 @@ if (isset($_GET['shop_id'])) {
                 echo "<li class='favorite-item'>
             <div>
                 <strong>{$meatRow['meat_name']}</strong><br>
-                가격: {$meatRow['price']}원<br>
+                가격: {$meatRow['price']}만원<br>
                 수량: {$meatRow['quantity']}
             </div>
             <div class='button-group'>
