@@ -22,46 +22,58 @@ $result = $conn->query($query);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>판매자 대시보드</title>
+    <link rel="stylesheet" href="../style/style2.css">
+    <title>Seller Dashboard</title>
 </head>
+
 <body>
+    <nav>
+        <div class="nav-left">
+            <h1><a href="../index.php">MeatView.</a></h1>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <?php
+                echo '<li><a href="../user/logout.php">Sign out</a></li>'; // 경로 수정
+                ?>
+            </ul>
+        </div>
+    </nav>
 
-<!-- Navigation Bar -->
-<nav>
-    <ul>
-        <li><a href="../index.php">Home</a></li>
-        <li><a href="../user/logout.php">Logout</a></li>
-    </ul>
-</nav>
 
-<h2>판매자 대시보드</h2>
+    <div class="container">
+        <h2 style="text-align: center;">My ButcherShop (Seller)</h2>
+        <br>
+        <div class="button-container">
+            <form method="get" action="register_shop.php">
+                <input type="submit" class="shop-list-button" value="정육점 등록">
+            </form>
+        </div>
 
-<!-- 기존 내용 -->
-
-<!-- 정육점 등록 페이지로 이동할 수 있는 링크 -->
-<a href="register_shop.php">정육점 등록</a>
-
-<!-- 판매자가 등록한 정육점 목록 표시 -->
-<?php
-if ($result->num_rows > 0) {
-    echo "<h3>등록한 정육점 목록:</h3>";
-    echo "<ul>";
-    while ($row = $result->fetch_assoc()) {
-        $shopID = $row['id'];
-        echo "<li>{$row['shop_name']} - 위치: {$row['location']} ";
-        echo "<a href='meat/meatlist.php?shop_id=$shopID'>고기 목록</a></li>";
-    }
-    echo "</ul>";
-} else {
-    echo "등록된 정육점이 없습니다.";
-}
-
-?>
-
-<!-- 기존 내용 -->
+        <ul>
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $shopID = $row['id'];
+                    echo "<li class='favorite-item'>
+                <div>
+                    <strong>{$row['shop_name']}</strong> - {$row['location']}
+                </div>
+                <div class='button-group'>
+                    <a href='meat/meatlist.php?shop_id=$shopID' class='view-meatlist-button'>고기 목록</a>
+                </div>
+              </li>";
+                }
+            } else {
+                echo "즐겨찾기에 등록된 정육점이 없습니다.";
+            }
+            ?>
+        </ul>
 
 </body>
+
 </html>

@@ -57,31 +57,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>고기 삭제</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+
+        h2,
+        h3 {
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        form {
+            margin-top: 15px;
+        }
+
+        input[type="submit"] {
+            background-color: #d9534f;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #c9302c;
+        }
+    </style>
 </head>
+
 <body>
-<nav>
-    <ul>
-        <li><a href="../seller_dashboard.php">판매자 홈</a></li>
-        <li><a href="../../user/logout.php">Logout</a></li>
-    </ul>
-</nav>
-<h2>고기 삭제</h2>
 
-<!-- 현재 고기 정보 표시 -->
-<h3>현재 고기 정보:</h3>
-<p>고기 이름: <?php echo $meatRow['meat_name']; ?></p>
-<p>가격: <?php echo $meatRow['price']; ?>원</p>
-<p>수량: <?php echo $meatRow['quantity']; ?></p>
+    <div style="max-width: 600px; margin: auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h2>고기 삭제</h2>
 
-<!-- 삭제 확인 메시지 및 폼 -->
-<p>정말로 삭제하시겠습니까?</p>
-<form method="post" action="delete_meat.php?meat_id=<?php echo $meatID; ?>">
-    <input type="submit" value="삭제">
-</form>
+        <!-- 현재 고기 정보 표시 -->
+        <h3>현재 고기 정보:</h3>
+        <p>고기 이름: <?php echo $meatRow['meat_name']; ?></p>
+        <p>가격: <?php echo $meatRow['price']; ?>원</p>
+        <p>수량: <?php echo $meatRow['quantity']; ?></p>
+
+        <!-- 삭제 확인 메시지 및 폼 -->
+        <p>정말로 삭제하시겠습니까?</p>
+        <form method="post" action="delete_meat.php?meat_id=<?php echo $meatID; ?>">
+            <input type="submit" value="삭제">
+        </form>
+    </div>
 
 </body>
+
 </html>

@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($duplicateCount == 0) {
         // 정육점 등록 쿼리 (주의: 반드시 입력값을 안전하게 처리해야 함)
         $query = "INSERT INTO ButcherShop (shop_name, location, seller_id) VALUES ('$shopName', '$location', '$id')";
-        
+
         if ($conn->query($query) === TRUE) {
             echo "정육점이 등록되었습니다!";
             header('Location: seller_dashboard.php');
@@ -41,31 +41,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/style2.css">
     <title>정육점 등록</title>
+    <style>
+
+
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
+    <nav>
+        <div class="nav-left">
+            <h1><a href="../index.php">MeatView.</a></h1>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <?php
+                echo '<li><a href="seller_dashboard.php">Home</a></li>'; // 경로 수정
+                echo '<li><a href="../user/logout.php">Sign out</a></li>'; // 경로 수정
+                ?>
+            </ul>
+        </div>
+    </nav>
 
-<!-- Navigation Bar -->
-<nav>
-    <ul>
-        <li><a href="seller_dashboard.php">판매자 홈</a></li>
-        <li><a href="../user/logout.php">Logout</a></li>
-    </ul>
-</nav>
-
-<h2>정육점 등록</h2>
-<form method="post" action="register_shop.php">
-    <label for="shop_name">정육점 이름:</label>
-    <input type="text" name="shop_name" required>
-    <br>
-    <label for="location">위치:</label>
-    <input type="text" name="location" required>
-    <br>
-    <input type="submit" value="등록">
-</form>
+    <div class="container">
+        <h1 style="text-align: center;">정육점 등록</h1>
+        <form method="post" action="register_shop.php">
+            <label for="shop_name">정육점 이름:</label>
+            <input type="text" name="shop_name" required>
+            <label for="location">위치:</label>
+            <input type="text" name="location" required>
+            <input type="submit" value="등록">
+        </form>
+    </div>
 
 </body>
+
 </html>

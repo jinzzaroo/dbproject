@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($conn->query($query) === TRUE) {
             echo "구매자 회원가입 성공!";
+            header('Location: ../buyer/buyer_dashboard.php');
         } else {
             echo "Error: " . $query . "<br>" . $conn->error;
         }
@@ -31,37 +32,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>구매자 회원가입</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <title>회원가입</title>
 </head>
+
 <body>
-
-<ul>
-        <li><a href="../index.php">Home</a></li>
-        <li><a href="login.php">로그인</a></li>
-</ul>
-
-<h2>구매자 회원가입</h2>
-<form method="post" action="register_buyer.php">
-    <label for="userid">아이디:</label>
-    <input type="text" name="userid" required>
-    <br>
-    <label for="password">비밀번호:</label>
-    <input type="password" name="password" required>
-    <br>
-    <label for="buyer_name">이름:</label>
-    <input type="text" name="buyer_name" required>
-    <br>
-    <label for="contact_number">연락처:</label>
-    <input type="text" name="contact_number" required>
-    <br>
-    <label for="address">주소:</label>
-    <input type="text" name="address" required>
-    <br>
-    <input type="submit" value="가입하기">
-</form>
-
+    <nav>
+        <div class="nav-left">
+            <h1><a href="../index.php">MeatView.</a></h1>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <?php
+                echo '<li class="dropdown">';
+                echo '<a href="#" class="dropbtn">Menu</a>';
+                echo '<div class="dropdown-content">';
+                echo '<a href="register_buyer.php">Sign up</a>';
+                echo '<a href="login.php">Sign in</a>';
+                echo '<a href="register_seller.php">Sign up (Seller)</a>';
+                echo '</div>';
+                echo '</li>';
+                ?>
+            </ul>
+        </div>
+    </nav>
+    <div class="centered-form">
+        <h2>Sign Up (User)</h2>
+        <form method="post" action="register_buyer.php">
+            <label for="userid">ID</label>
+            <input type="text" name="userid" required>
+            <br>
+            <label for="password">Password</label>
+            <input type="password" name="password" required>
+            <br>
+            <label for="buyer_name">Name</label>
+            <input type="text" name="buyer_name" required>
+            <br>
+            <label for="contact_number">Contact</label>
+            <input type="text" name="contact_number" id="contact_number" placeholder="000-0000-0000" onfocus="clearDefault(this)" required> <br>
+            <br>
+            <label for="address">Address</label>
+            <input type="text" name="address" required>
+            <br>
+            <input type="submit" value="Sign Up">
+        </form>
+    </div>
 </body>
+
 </html>
