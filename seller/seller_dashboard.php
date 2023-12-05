@@ -1,20 +1,14 @@
-<!-- seller_dashboard.php -->
-
 <?php
-include '../config.php'; // 데이터베이스 연결 설정 파일
+include '../config.php';
 
 session_start();
 
-// 판매자로 로그인된 경우에만 접근 허용
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'seller') {
-    header('Location: ../user/login.php'); // 판매자가 아니면 로그인 페이지로 이동
+    header('Location: ../user/login.php');
     exit();
 }
 
-// 현재 판매자의 ID 가져오기
 $id = $_SESSION['id'];
-
-// 현재 판매자가 등록한 정육점 목록 가져오기
 $query = "SELECT * FROM ButcherShop WHERE seller_id = '$id'";
 $result = $conn->query($query);
 
@@ -38,7 +32,7 @@ $result = $conn->query($query);
         <div class="nav-right">
             <ul>
                 <?php
-                echo '<li><a href="../user/logout.php">Sign out</a></li>'; // 경로 수정
+                echo '<li><a href="../user/logout.php">Sign out</a></li>';
                 ?>
             </ul>
         </div>
@@ -72,23 +66,17 @@ $result = $conn->query($query);
               </li>";
                 }
 
-                // Check if the delete_shop button is clicked
-                // Check if the delete_shop button is clicked
-                if (isset($_POST['delete_shop'])) {
-                    // Get the shop_id to be deleted
-                    $deleteShopID = $_POST['shop_id'];
 
-                    // Delete related records in the Review table
+                if (isset($_POST['delete_shop'])) {
+                    $deleteShopID = $_POST['shop_id'];
                     $deleteReviewQuery = "DELETE FROM Review WHERE shop_id = '$deleteShopID'";
                     $deleteReviewResult = $conn->query($deleteReviewQuery);
 
                     if ($deleteReviewResult) {
-                        // Proceed with deleting the ButcherShop
                         $deleteQuery = "DELETE FROM ButcherShop WHERE id = '$deleteShopID' AND seller_id = '$id'";
                         $deleteResult = $conn->query($deleteQuery);
 
                         if ($deleteResult) {
-                            // Rest of your deletion logic...
                         } else {
                             echo '<script>alert("정육점 삭제 중 오류가 발생했습니다.");</script>';
                         }
