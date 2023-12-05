@@ -1,11 +1,10 @@
 <?php
-include '../config.php'; // 데이터베이스 연결 설정 파일
+include '../config.php';
 
 session_start();
 
-// 판매자로 로그인된 경우에만 접근 허용
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'seller') {
-    header('Location: ../user/login.php'); // 판매자가 아니면 로그인 페이지로 이동
+    header('Location: ../user/login.php');
     exit();
 }
 
@@ -14,15 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $location = $_POST['location'];
     $id = $_SESSION['id'];
 
-    // 중복 체크 쿼리
     $duplicateCheckQuery = "SELECT COUNT(*) AS count FROM ButcherShop WHERE (shop_name = '$shopName' AND location = '$location') AND seller_id = '$id'";
     $duplicateCheckResult = $conn->query($duplicateCheckQuery);
     $duplicateCheckRow = $duplicateCheckResult->fetch_assoc();
     $duplicateCount = $duplicateCheckRow['count'];
 
-    // 중복이 없는 경우에만 등록
     if ($duplicateCount == 0) {
-        // 정육점 등록 쿼리 (주의: 반드시 입력값을 안전하게 처리해야 함)
         $query = "INSERT INTO ButcherShop (shop_name, location, seller_id) VALUES ('$shopName', '$location', '$id')";
 
         if ($conn->query($query) === TRUE) {
@@ -92,8 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="nav-right">
             <ul>
                 <?php
-                echo '<li><a href="seller_dashboard.php">Home</a></li>'; // 경로 수정
-                echo '<li><a href="../user/logout.php">Sign out</a></li>'; // 경로 수정
+                echo '<li><a href="seller_dashboard.php">Home</a></li>';
+                echo '<li><a href="../user/logout.php">Sign out</a></li>'; 
                 ?>
             </ul>
         </div>

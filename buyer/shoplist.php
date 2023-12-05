@@ -1,14 +1,11 @@
 <?php
 include '../config.php';
 
-// 페이지네이션
-$itemsPerPage = 5; // 페이지당 아이템 수
+$itemsPerPage = 5; 
 $pageShops = isset($_GET['pageShops']) ? $_GET['pageShops'] : 1;
 
-// 검색어
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 
-// 정육점 목록 가져오기 (페이지네이션 및 검색어 적용)
 $queryShops = "SELECT id, shop_name, location FROM ButcherShop
                WHERE shop_name LIKE '%$searchTerm%' OR location LIKE '%$searchTerm%'
                LIMIT " . ($pageShops - 1) * $itemsPerPage . ", $itemsPerPage";
@@ -33,8 +30,8 @@ $resultShops = $conn->query($queryShops);
         <div class="nav-right">
             <ul>
                 <?php
-                echo '<li><a href="buyer_dashboard.php">Home</a></li>'; // 경로 수정
-                echo '<li><a href="../user/logout.php">Sign out</a></li>'; // 경로 수정
+                echo '<li><a href="buyer_dashboard.php">Home</a></li>';
+                echo '<li><a href="../user/logout.php">Sign out</a></li>';
                 ?>
             </ul>
         </div>
@@ -68,7 +65,6 @@ $resultShops = $conn->query($queryShops);
             ?>
         </ul>
 
-        <!-- 페이징 링크 추가 -->
         <?php
         $queryCountShops = "SELECT COUNT(*) as count FROM ButcherShop
                         WHERE shop_name LIKE '%$searchTerm%' OR location LIKE '%$searchTerm%'";

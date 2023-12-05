@@ -1,20 +1,14 @@
-<!-- seller_dashboard.php -->
-
 <?php
-include '../config.php'; // 데이터베이스 연결 설정 파일
+include '../config.php';
 
 session_start();
 
-// 판매자로 로그인된 경우에만 접근 허용
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'seller') {
-    header('Location: ../user/login.php'); // 판매자가 아니면 로그인 페이지로 이동
+    header('Location: ../user/login.php');
     exit();
 }
 
-// 현재 판매자의 ID 가져오기
 $id = $_SESSION['id'];
-
-// 현재 판매자가 등록한 정육점 목록 가져오기
 $query = "SELECT * FROM ButcherShop WHERE seller_id = '$id'";
 $result = $conn->query($query);
 
@@ -38,12 +32,11 @@ $result = $conn->query($query);
         <div class="nav-right">
             <ul>
                 <?php
-                echo '<li><a href="../user/logout.php">Sign out</a></li>'; // 경로 수정
+                echo '<li><a href="../user/logout.php">Sign out</a></li>';
                 ?>
             </ul>
         </div>
     </nav>
-
 
     <div class="container">
         <h2 style="text-align: center;">My ButcherShop (Seller)</h2>
@@ -65,15 +58,37 @@ $result = $conn->query($query);
                 </div>
                 <div class='button-group'>
                     <a href='meat/meatlist.php?shop_id=$shopID' class='view-meatlist-button'>고기 목록</a>
+                    <form method='post' action=''>
+                        <input type='hidden' name='shop_id' value='$shopID'>
+                        <button type='submit' name='delete_shop' class='delete-shop-button'>정육점 삭제</button>
+                    </form>
                 </div>
               </li>";
                 }
-            } else {
-                echo "즐겨찾기에 등록된 정육점이 없습니다.";
+
+
+                if (isset($_POST['delete_shop'])) {
+                    $deleteShopID = $_POST['shop_id'];
+                    $deleteReviewQuery = "DELETE FROM Review WHERE shop_id = '$deleteShopID'";
+                    $deleteReviewResult = $conn->query($deleteReviewQuery);
+
+                    if ($deleteReviewResult) {
+                        $deleteQuery = "DELETE FROM ButcherShop WHERE id = '$deleteShopID' AND seller_id = '$id'";
+                        $deleteResult = $conn->query($deleteQuery);
+
+                        if ($deleteResult) {
+                        } else {
+                            echo '<script>alert("정육점 삭제 중 오류가 발생했습니다.");</script>';
+                        }
+                    } else {
+                        echo '<script>alert("관련 리뷰 삭제 중 오류가 발생했습니다.");</script>';
+                    }
+                }
             }
+
             ?>
         </ul>
-
+    </div>
 </body>
 
 </html>
