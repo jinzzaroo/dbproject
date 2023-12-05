@@ -67,12 +67,15 @@ $result = $conn->query($query);
                 }
 
 
+
                 if (isset($_POST['delete_shop'])) {
                     $deleteShopID = $_POST['shop_id'];
+
                     $deleteReviewQuery = "DELETE FROM Review WHERE shop_id = '$deleteShopID'";
                     $deleteReviewResult = $conn->query($deleteReviewQuery);
 
                     if ($deleteReviewResult) {
+
                         $deleteQuery = "DELETE FROM ButcherShop WHERE id = '$deleteShopID' AND seller_id = '$id'";
                         $deleteResult = $conn->query($deleteQuery);
 
