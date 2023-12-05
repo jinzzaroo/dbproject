@@ -1,19 +1,15 @@
 <?php
-include '../../config.php'; // Adjust the path to config.php based on your project structure
+include '../../config.php';
 
 session_start();
 
-// 판매자로 로그인된 경우에만 접근 허용
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'seller') {
-    header('Location: ../../user/login.php'); // Adjust the path to login.php based on your project structure
+    header('Location: ../../user/login.php');
     exit();
 }
 
-// 정육점 ID 가져오기
 if (isset($_GET['shop_id'])) {
     $shopID = $_GET['shop_id'];
-
-    // 정육점 정보 가져오기
     $shopQuery = "SELECT * FROM ButcherShop WHERE id = '$shopID' AND seller_id = '{$_SESSION['id']}'";
     $shopResult = $conn->query($shopQuery);
 
@@ -28,13 +24,10 @@ if (isset($_GET['shop_id'])) {
     exit();
 }
 
-// 고기 추가 처리
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $meatName = $_POST['meat_name'];
     $price = $_POST['price'];
     $quantity = $_POST['quantity'];
-
-    // 고기 추가 쿼리
     $addMeatQuery = "INSERT INTO Meat (meat_name, price, shop_id, quantity) VALUES ('$meatName', '$price', '$shopID', '$quantity')";
 
     if ($conn->query($addMeatQuery) === TRUE) {
@@ -78,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            /* Include padding and border in the width calculation */
         }
 
         input[type="submit"] {
@@ -97,8 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="nav-right">
             <ul>
                 <?php
-                echo '<li><a href="../seller_dashboard.php">Home</a></li>'; // 경로 수정
-                echo '<li><a href="../../user/logout.php">Sign out</a></li>'; // 경로 수정
+                echo '<li><a href="../seller_dashboard.php">Home</a></li>';
+                echo '<li><a href="../../user/logout.php">Sign out</a></li>';
                 ?>
             </ul>
         </div>
@@ -115,9 +107,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="number" name="quantity" required>
         <input type="submit" value="추가">
     </form>
-
-    <!-- 기존 내용 -->
-
-</body>
+    </body>
 
 </html>

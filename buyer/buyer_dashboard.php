@@ -3,23 +3,16 @@ include '../config.php';
 
 session_start();
 
-// 구매자로 로그인된 경우에만 접근 허용
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'buyer') {
-    header('Location: ../user/login.php'); // 구매자가 아니면 로그인 페이지로 이동
+    header('Location: ../user/login.php');
     exit();
 }
 
-// 현재 로그인한 구매자의 ID 및 이름
 $buyerID = $_SESSION['id'];
+$itemsPerPage = 5;
+$pageFavorites = isset($_GET['pageFavorites']) ? (int)$_GET['pageFavorites'] : 1;
 
-// 페이지네이션
-$itemsPerPage = 5; // 페이지당 아이템 수
-$pageFavorites = isset($_GET['pageFavorites']) ? (int)$_GET['pageFavorites'] : 1; // 형변환 및 기본값 설정
-
-// 검색어
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
-
-// 즐겨찾기 목록 가져오기 (검색어 적용)
 $queryFavorites = "SELECT bs.id, bs.shop_name, bs.location
                 FROM ButcherShop bs
                 JOIN Favorites f ON bs.id = f.shop_id
@@ -85,7 +78,6 @@ $resultFavorites = $conn->query($queryFavorites);
             ?>
         </ul>
 
-        <!-- 페이징 링크 추가 -->
         <div class="pagination">
             <?php
             $queryCountFavorites = "SELECT COUNT(*) as count FROM Favorites f
@@ -105,7 +97,6 @@ $resultFavorites = $conn->query($queryFavorites);
     <script>
         function deleteShop(shopID) {
             if (confirm("정말로 삭제하시겠습니까?")) {
-                // Make an asynchronous request to deleteShop.php
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "delete_shop.php", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -113,7 +104,6 @@ $resultFavorites = $conn->query($queryFavorites);
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         var response = JSON.parse(xhr.responseText);
                         if (response.success) {
-                            // Reload the page or update the list after successful deletion
                             location.reload();
                         } else {
                             alert(response.message);

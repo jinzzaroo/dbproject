@@ -3,37 +3,25 @@ include '../config.php';
 
 session_start();
 
-// 구매자로 로그인된 경우에만 접근 허용
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'buyer') {
-    header('Location: ../user/login.php'); // 구매자가 아니면 로그인 페이지로 이동
+    header('Location: ../user/login.php');
     exit();
 }
 
-// 현재 로그인한 구매자의 ID
 $buyerID = $_SESSION['id'];
 
-// Validate and sanitize input
 $shopID = isset($_GET['shopID']) ? (int)$_GET['shopID'] : null;
 
-// Check if $shopID is a valid integer
 if (!is_int($shopID) || $shopID <= 0) {
-    // Handle the error, e.g., redirect or display an error message
     echo "Invalid shop ID";
     exit();
 }
 
-// Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validate and sanitize the input
     $rating = isset($_POST['rating']) ? $_POST['rating'] : null;
 
-    // Check if rating is set and not null
     if ($rating !== null) {
         $comment = isset($_POST['comment']) ? htmlspecialchars($_POST['comment']) : '';
-
-        // Perform additional validation if needed
-
-        // Use prepared statement to insert the review into the database
         $queryInsertReview = "INSERT INTO Review (buyer_id, shop_id, rating, comment, review_date)
                             VALUES (?, ?, ?, ?, NOW())";
 
@@ -43,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->execute()) {
             $stmt->close();
 
-            // Review submitted successfully, show confirmation popup
             echo '<script>alert("Review submitted successfully."); window.location.href = "shopinfo.php?shopID=' . $shopID . '";</script>';
             exit();
         } else {
@@ -118,7 +105,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="post" action="">
         <label for="rating">Rating:</label>
         <input type="number" name="rating" id="rating" min="1" max="5">
-        <!-- Display error message next to rating input -->
         <div class="error-message">
             <?php
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && $rating === null) {
