@@ -1,5 +1,3 @@
-<!-- index.php -->
-
 <?php
 session_start();
 ?>
@@ -16,7 +14,6 @@ session_start();
 
 <body class="main">
 
-    <!-- Navigation Bar -->
     <nav>
         <div class="nav-left">
             <h1><a href="index.php">MeatView.</a></h1>
@@ -24,7 +21,6 @@ session_start();
         <div class="nav-right">
             <ul>
                 <?php
-                // Check if the user is a seller
                 if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
                     echo '<li><a href="seller/seller_dashboard.php">Seller Home</a></li>';
                     echo '<li><a href="user/logout.php">Sign out</a></li>';
@@ -32,7 +28,6 @@ session_start();
                     echo '<li><a href="buyer/buyer_dashboard.php">User Home</a></li>';
                     echo '<li><a href="user/logout.php">Sign out</a></li>';
                 } else {
-                    // If not a seller or buyer (assuming not logged in)
                     echo '<li class="dropdown">';
                     echo '<a href="#" class="dropbtn">Menu</a>';
                     echo '<div class="dropdown-content">';
@@ -50,8 +45,6 @@ session_start();
     <div class="main-heading">
         <h1>Discover Quality Meats,<br>Local & Fresh!</h1>
     </div>
-    <!-- Rest of your content -->
-
 </body>
 
 </html>

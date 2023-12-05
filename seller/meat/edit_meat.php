@@ -1,19 +1,16 @@
 <?php
-include '../../config.php'; // 데이터베이스 연결 설정 파일
+include '../../config.php';
 
 session_start();
 
-// 판매자로 로그인된 경우에만 접근 허용
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'seller') {
-    header('Location: ../../user/login.php'); // 판매자가 아니면 로그인 페이지로 이동
+    header('Location: ../../user/login.php');
     exit();
 }
 
-// 고기 ID 및 정육점 ID 가져오기
 if (isset($_GET['meat_id'])) {
     $meatID = $_GET['meat_id'];
 
-    // Get the shop_id associated with the deleted meat
     $getShopIDQuery = "SELECT shop_id FROM Meat WHERE id = '$meatID'";
     $shopIDResult = $conn->query($getShopIDQuery);
 
@@ -25,7 +22,6 @@ if (isset($_GET['meat_id'])) {
         exit();
     }
 
-    // 해당 고기 정보 가져오기
     $meatQuery = "SELECT * FROM Meat WHERE id = '$meatID'";
     $meatResult = $conn->query($meatQuery);
 
@@ -40,18 +36,15 @@ if (isset($_GET['meat_id'])) {
     exit();
 }
 
-// 수정 버튼 클릭 시의 처리
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newMeatName = $_POST['new_meat_name'];
     $newPrice = $_POST['new_price'];
     $newQuantity = $_POST['new_quantity'];
-
-    // 고기 정보 업데이트 쿼리
     $updateQuery = "UPDATE Meat SET meat_name = '$newMeatName', price = '$newPrice', quantity = '$newQuantity' WHERE id = '$meatID'";
 
     if ($conn->query($updateQuery) === TRUE) {
         echo "고기 정보가 성공적으로 업데이트되었습니다!";
-        header("Location: meatlist.php?shop_id=$shopID"); // Redirect to the meat list page with the correct shop_id
+        header("Location: meatlist.php?shop_id=$shopID");
         exit();
     } else {
         echo "Error: " . $updateQuery . "<br>" . $conn->error;
@@ -89,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         margin: 0.5rem 0;
         border: 1px solid #ccc;
         border-radius: 4px;
-        box-sizing: border-box; /* Include padding and border in the width calculation */
+        box-sizing: border-box;
     }
 
     input[type="submit"] {
@@ -109,8 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="nav-right">
             <ul>
                 <?php
-                echo '<li><a href="../seller_dashboard.php">Home</a></li>'; // 경로 수정
-                echo '<li><a href="../../user/logout.php">Sign out</a></li>'; // 경로 수정
+                echo '<li><a href="../seller_dashboard.php">Home</a></li>';
+                echo '<li><a href="../../user/logout.php">Sign out</a></li>';
                 ?>
             </ul>
         </div>
